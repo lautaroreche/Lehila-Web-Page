@@ -10,8 +10,8 @@
     <link preload rel="stylesheet" href="{% static 'css/output.css'%}"/>
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"/>
 </head>
-<body class="bg-green-50">
-    <div class="w-full p-40 space-y-10 flex flex-col justify-center items-center">
+<body class="flex flex-col justify-center items-center bg-green-50">
+    <div class="w-full p-20 space-y-10 flex flex-col justify-center items-center">
         <h1 class="text-3xl text-green-700 font-bold text-center">Sube tu Excel</h1>
             <form action="{% url 'organize' %}" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center items-center space-y-10 w-full max-w-2xl">
                 {% csrf_token %}
