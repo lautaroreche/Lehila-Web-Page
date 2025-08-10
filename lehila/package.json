@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  },
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./lehila_app/static/css/input.css -o ./lehila_app/static/css/output.css --minify",
+    "watch:css": "npx tailwindcss -i ./lehila_app/static/css/input.css -o ./lehila_app/static/css/output.css --watch"
+  }
+}

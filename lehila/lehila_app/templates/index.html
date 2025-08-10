@@ -1,0 +1,79 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehila</title>
+    <link preload rel="stylesheet" href="{% static 'css/output.css'%}"/>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"/>
+</head>
+<body class="bg-green-50">
+    <div class="w-full p-40 space-y-10 flex flex-col justify-center items-center">
+        <h1 class="text-3xl text-green-700 font-bold text-center">Sube tu Excel</h1>
+            <form action="{% url 'organize' %}" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center items-center space-y-10 w-full max-w-2xl">
+                {% csrf_token %}
+                <div id="dropzone" class="w-full relative border-2 border-dashed border-slate-500 rounded-xl px-8 py-20 text-center transition-colors duration-200 hover:border-green-700">
+                    <input type="file" name="file" id="fileInput" accept=".xlsx,.xls" class="w-full absolute inset-0 h-full opacity-0 cursor-pointer" required>
+                    <p class="text-lg text-center">🗂️ Arrastra y suelta tu archivo aquí o haz click para seleccionarlo</p>
+                </div>
+                <button id="uploadBtn" disabled class="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition cursor-pointer">
+                    Enviar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const dropzone = document.getElementById("dropzone");
+        const fileInput = document.getElementById("fileInput");
+        const uploadBtn = document.getElementById("uploadBtn");
+        let selectedFile = null;
+    
+        dropzone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropzone.classList.add("dragover");
+        });
+    
+        dropzone.addEventListener("dragleave", () => {
+            dropzone.classList.remove("dragover");
+        });
+    
+        dropzone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropzone.classList.remove("dragover");
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+    
+        fileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            handleFile(file);
+        });
+    
+        function handleFile(file) {
+            if (!file) return;
+            const allowed = [".xlsx", ".xls"];
+            const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+            if (!allowed.includes(ext)) {
+                alert("Solo se permiten archivos Excel");
+                return;
+            }
+            selectedFile = file;
+            uploadBtn.disabled = false;
+            dropzone.querySelector("p").textContent = `Archivo seleccionado: ${file.name}`;
+        }
+    
+        uploadBtn.addEventListener("click", () => {
+            if (!selectedFile) return;
+    
+            const evt = new CustomEvent("excel:submit", {
+                detail: { file: selectedFile }
+            });
+            window.dispatchEvent(evt);
+        });
+    </script>    
+</body>
+</html>
