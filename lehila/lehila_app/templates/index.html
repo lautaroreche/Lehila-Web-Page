@@ -10,21 +10,21 @@
     <link preload rel="stylesheet" href="{% static 'css/output.css'%}"/>
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"/>
 </head>
-<body class="flex flex-col justify-center items-center bg-green-50">
-    <div class="w-full p-20 space-y-10 flex flex-col justify-center items-center">
+<body>
+    <main class="flex flex-col justify-center items-center w-full h-screen p-10 md:p-20 space-y-10 bg-green-50">
         <h1 class="text-3xl text-green-700 font-bold text-center">Sube tu Excel</h1>
-            <form action="{% url 'organize' %}" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center items-center space-y-10 w-full max-w-2xl">
-                {% csrf_token %}
-                <div id="dropzone" class="w-full relative border-2 border-dashed border-slate-500 rounded-xl px-8 py-20 text-center transition-colors duration-200 hover:border-green-700">
-                    <input type="file" name="file" id="fileInput" accept=".xlsx,.xls" class="w-full absolute inset-0 h-full opacity-0 cursor-pointer" required>
-                    <p class="text-lg text-center">🗂️ Arrastra y suelta tu archivo aquí o haz click para seleccionarlo</p>
-                </div>
-                <button id="uploadBtn" disabled class="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition cursor-pointer">
-                    Ordenar y descargar
-                </button>
-            </form>
+        <form action="{% url 'organize' %}" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center items-center space-y-10 w-full max-w-2xl">
+            {% csrf_token %}
+            <div id="dropzone" class="w-full relative border-2 border-dashed border-slate-500 rounded-xl px-8 py-20 text-center transition-colors duration-200 hover:border-green-700">
+                <input type="file" name="file" id="fileInput" accept=".xlsx,.xls" class="w-full absolute inset-0 h-full opacity-0 cursor-pointer" required>
+                <p class="text-lg text-center">🗂️ Arrastra y suelta tu archivo o haz click aquí para buscarlo entre tus carpetas</p>
+            </div>
+            <button id="uploadBtn" disabled class="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition cursor-pointer">
+                Ordenar y descargar
+            </button>
+        </form>
         </div>
-    </div>
+    </main>
 
     <script>
         const dropzone = document.getElementById("dropzone");
